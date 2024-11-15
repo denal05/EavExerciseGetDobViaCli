@@ -14,10 +14,11 @@ use Denal05\EavExerciseGetDobViaCli\Helper\RawSqlQuery;
 class RawSqlCommand extends Command
 {
     private const TABLENAME = 'tablename';
+
     protected $rawSqlQuery = '';
 
     public function __construct(
-	RawSqlQuery $rawSqlQuery
+	    RawSqlQuery $rawSqlQuery
     ) {
         $this->rawSqlQuery = $rawSqlQuery;
 	    parent::__construct();
