@@ -13,7 +13,7 @@ use Denal05\EavExerciseGetDobViaCli\Helper\RawSqlQuery;
 
 class RawSqlCommand extends Command
 {
-    private const TABLENAME = 'tablename';
+    private const EMAIL = 'email';
 
     protected $rawSqlQuery = '';
 
@@ -27,12 +27,12 @@ class RawSqlCommand extends Command
     protected function configure(): void
     {
         $this->setName('sql:raw:query');
-        $this->setDescription('This command will run a raw SQL query given the parameters.');
+        $this->setDescription("This command will run a raw SQL query; it will return the date of birth of a customer based ona customer's address.");
         $this->addOption(
-            self::TABLENAME,
+            self::EMAIL,
             null,
             InputOption::VALUE_REQUIRED,
-            'Table Name'
+            'Email'
         );
 
         parent::configure();
@@ -51,10 +51,11 @@ class RawSqlCommand extends Command
          $exitCode = 0;
 
          try {
-             if ($name = $input->getOption(self::TABLENAME)) {
-                 $output->writeln('<info>Provided table name is `' . $name . '`</info>');
-                 $result = $this->rawSqlQuery->runSqlQueryOnTable($name);
-                 $output->writeln('<info>SQL Query Result: `' . print_r($result) . '`</info>');
+            $email = "";
+             if ($email = $input->getOption(self::EMAIL)) {
+                 $output->writeln('<info>Provided email is `' . $email . '`</info>');
+                 $result = $this->rawSqlQuery->runSqlQueryGetDobByEmail($email);
+                 $output->writeln('<info>Raw SQL Query Result: `' . print_r($result) . '`</info>');
              }
 
              // $output->writeln('<info>Success message.</info>');
