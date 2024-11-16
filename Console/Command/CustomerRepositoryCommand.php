@@ -4,30 +4,30 @@ declare(strict_types=1);
 
 namespace Denal05\EavExerciseGetDobViaCli\Console\Command;
 
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Denal05\EavExerciseGetDobViaCli\Helper\RawSqlQuery;
 
-class RawSqlCommand extends Command
+class CustomerRepositoryCommand extends Command
 {
     private const EMAIL = 'email';
-
-    protected $rawSqlQuery = '';
+    private $customerRepository;
 
     public function __construct(
-	    RawSqlQuery $rawSqlQuery
+        CustomerRepositoryInterface $customerRepository
     ) {
-        $this->rawSqlQuery = $rawSqlQuery;
+        $this->customerRepository = $customerRepository;
 	    parent::__construct();
     }
 
     protected function configure(): void
     {
-        $this->setName('sql:raw:query');
-        $this->setDescription("This command will run a raw SQL query; it will return the date of birth of a customer based on a customer's email.");
+        $this->setName('customer:repository:query');
+        $this->setDescription("This command will query the customer repository; it will return the date of birth of a customer based on a customer's email.");
         $this->addOption(
             self::EMAIL,
             null,
@@ -51,10 +51,10 @@ class RawSqlCommand extends Command
          $exitCode = 0;
 
          try {
-            $email = "";
              if ($email = $input->getOption(self::EMAIL)) {
-                 $result = $this->rawSqlQuery->runSqlQueryGetDobByEmail($email);
-                 print_r($result);
+                 $customerByEmail = $this->customerRepository->get($email);
+                 $dobByEmail = $customerByEmail->getDob();
+                 $output->writeln("<info>DoB = $dobByEmail </info>");
              }
 
              // $output->writeln('<info>Success message.</info>');
@@ -63,14 +63,12 @@ class RawSqlCommand extends Command
              // if (rand(0, 1)) {
              //    throw new LocalizedException(__('An error occurred.'));
              // }
-         } catch (LocalizedException $e) {
-             $output->writeln(sprintf(
-                 '<error>%s</error>',
-                 $e->getMessage()
-             ));
+         } catch (NoSuchEntityException $exception) {
              $exitCode = 1;
+             throw new LocalizedException(
+                 __($exception->getMessage())
+             );
          }
-
          return $exitCode;
      }
 }

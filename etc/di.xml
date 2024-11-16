@@ -4,6 +4,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="consolecommand_rawsqlcommand" xsi:type="object">Denal05\EavExerciseGetDobViaCli\Console\Command\RawSqlCommand</item>
+                <item name="consolecommand_customerrepositorycommand" xsi:type="object">Denal05\EavExerciseGetDobViaCli\Console\Command\CustomerRepositoryCommand</item>
             </argument>
         </arguments>
     </type>

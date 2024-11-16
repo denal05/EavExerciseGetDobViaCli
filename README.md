@@ -11,4 +11,7 @@ Array
         )
 
 )
+
+> bin/magento customer:repository:query --email 'roni_cost@example.com'
+DoB = 1973-12-15
 ```
