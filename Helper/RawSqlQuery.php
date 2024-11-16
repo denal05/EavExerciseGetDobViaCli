@@ -21,18 +21,17 @@ class RawSqlQuery extends AbstractHelper
     public function runSqlQueryGetDobByEmail($email)
     {
         $connection = $this->resourceConnection->getConnection();
-        ////$table = $connection->getTableName($table);
 
         // select entity_id from customer_entity where email="roni_cost@example.com";
         // select attribute_id from eav_attribute where attribute_code='dob'; <- unnecessary
         // select dob from customer_entity where entity_id=1;
 
-        $entity_idQuery= "select entity_id from customer_entity where email='$email';";
-        $entity_idResult = $connection->fetchAll($entity_idQuery);
-        
-        $dobQuery = "select dob from customer_entity where entity_id=$entity_idResult;";
+        $entityIdQuery= "select entity_id from customer_entity where email='$email';";
+        $entityIdResult = $connection->fetchAll($entityIdQuery);
+
+        $dobQuery = "select dob from customer_entity where entity_id=" . (int) $entityIdResult . ";";
         $dobResult = $connection->fetchAll($dobQuery);
-        
+
         return $dobResult;
     }
 }

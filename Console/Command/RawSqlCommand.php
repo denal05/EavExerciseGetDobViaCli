@@ -53,9 +53,8 @@ class RawSqlCommand extends Command
          try {
             $email = "";
              if ($email = $input->getOption(self::EMAIL)) {
-                 $output->writeln('<info>Provided email is `' . $email . '`</info>');
                  $result = $this->rawSqlQuery->runSqlQueryGetDobByEmail($email);
-                 $output->writeln('<info>Raw SQL Query Result: `' . print_r($result) . '`</info>');
+                 print_r($result);
              }
 
              // $output->writeln('<info>Success message.</info>');
