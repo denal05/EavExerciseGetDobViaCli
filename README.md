@@ -1,5 +1,5 @@
 # EavExerciseGetDobViaCli
-An EAV exercise module: retrieve the customer DOB via CLI
+A Magento entity-attribute-value (EAV) exercise module: retrieve the customer DOB via CLI
 
 ```
 > bin/magento sql:raw:query --email 'roni_cost@example.com'
